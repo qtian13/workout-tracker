@@ -5,7 +5,11 @@ const { Workout } = require("../../models");
 router.get('/', async (req, res) => {
   try {
     // return all workout documents ordered by date created
-    const workouts = await Workout.find({});
+    // add temperary field totalDuration
+    const workouts = await Workout.aggregate([{$addFields:{totalDuration: {$sum: "$exercises.duration"}}}])
+    console.log("====api get all workout=====");
+    console.log(workouts);
+    console.log("==========================");
     res.status(200).json(workouts);
   } catch (err) {
     res.status(500).json(err);

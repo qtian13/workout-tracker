@@ -11,7 +11,7 @@ const WorkoutSchema = new Schema({
 
   exercises: {
     type: [ExerciseSchema],
-    default: undefined
+    default: []
   }
 });
 
