@@ -18,7 +18,7 @@ const ExerciseSchema = new Schema({
 
   weight: {
     type: Number,
-    min: 0
+    min: 1
   },
 
   sets: {
@@ -33,10 +33,13 @@ const ExerciseSchema = new Schema({
 
   duration: {
     type: Number,
-    min: 0
+    min: 1
   }
 });
 
 const Exercise = mongoose.model("Exercise", ExerciseSchema);
 
-module.exports = Exercise;
+module.exports = { 
+  Exercise,
+  ExerciseSchema
+};

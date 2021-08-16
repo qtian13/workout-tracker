@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Exercise = require('./Exercise');
+const { ExerciseSchema } = require('./Exercise');
 
 const Schema = mongoose.Schema;
 
