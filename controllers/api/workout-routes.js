@@ -6,10 +6,18 @@ router.get('/', async (req, res) => {
   try {
     // return all workout documents ordered by date created
     // add temperary field totalDuration
-    const workouts = await Workout.aggregate([{$addFields:{totalDuration: {$sum: "$exercises.duration"}}}])
+    const workouts = await Workout.aggregate([
+      {
+        $addFields: {
+          totalDuration: {
+            $sum: "$exercises.duration"
+          }
+        }
+      }
+    ])
     console.log("====api get all workout=====");
     console.log(workouts);
-    console.log("==========================");
+    console.log("============================");
     res.status(200).json(workouts);
   } catch (err) {
     res.status(500).json(err);
@@ -20,16 +28,18 @@ router.get('/', async (req, res) => {
   try {
     // return all workout documents ordered by date created
     // add temperary field totalDuration
-    const workouts = await Workout.aggregate([{
-      $addFields:{
-        totalDuration: {
-          $sum: "$exercises.duration"
+    const workouts = await Workout.aggregate([
+      {
+        $addFields:{
+          totalDuration: {
+            $sum: "$exercises.duration"
+          }
         }
       }
-    }]);
+    ]);
     console.log("====api get all workout=====");
     console.log(workouts);
-    console.log("==========================");
+    console.log("============================");
     res.status(200).json(workouts);
   } catch (err) {
     res.status(500).json(err);
@@ -40,13 +50,15 @@ router.get('/range', async (req, res) => {
   try {
     // return last 7 workouts ordered by created sequence
     // add temperary field totalDuration
-    const workouts = await Workout.aggregate([{
-      $addFields:{
-        totalDuration: {
-          $sum: "$exercises.duration"
+    const workouts = await Workout.aggregate([
+      {
+        $addFields:{
+          totalDuration: {
+            $sum: "$exercises.duration"
+          }
         }
       }
-    }]).sort({ _id: -1 }).limit(7);
+    ]).sort({ _id: -1 }).limit(7);
     workouts.reverse();
     
     // check the number of workouts
@@ -78,8 +90,9 @@ router.get('/range', async (req, res) => {
       });
     }
     
-    console.log("=======workouts======");
+    console.log("==========workouts=========");
     console.log(workouts);
+    console.log("===========================")
     res.status(200).json(workouts);
   } catch (err) {
     res.status(500).json(err);
@@ -108,7 +121,6 @@ router.post('/', async ({ body }, res) => {
     const response = await Workout.create(body);
     console.log("====new workout created====")
     res.json(response);
-    console.log("===========================")
   } catch (err) {
     res.status(500).json(err);
   }
