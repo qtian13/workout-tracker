@@ -16,6 +16,26 @@ router.get('/', async (req, res) => {
   }
 })
 
+router.get('/', async (req, res) => {
+  try {
+    // return all workout documents ordered by date created
+    // add temperary field totalDuration
+    const workouts = await Workout.aggregate([{
+      $addFields:{
+        totalDuration: {
+          $sum: "$exercises.duration"
+        }
+      }
+    }]);
+    console.log("====api get all workout=====");
+    console.log(workouts);
+    console.log("==========================");
+    res.status(200).json(workouts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
 // put /api/workouts/:id     
 // add exercist to existing workout
 router.put('/:id', async (req, res) => {
@@ -23,20 +43,8 @@ router.put('/:id', async (req, res) => {
     const response = await Workout.findByIdAndUpdate(
       req.params.id,
       { $push: { exercises: req.body } },
-      function (error, success) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log("====exercise added successfully====")
-          console.log(success);
-          console.log("===================================")
-        }
-      }
+      { upsert: true, new: true }
     );
-    console.log("====updated workout====")
-    console.log(response);
-    console.log("=======================")
-
     res.status(200).json(response);
   } catch (err) {
     res.status(500).json(err);
