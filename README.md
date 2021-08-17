@@ -34,14 +34,14 @@ git clone https://github.com/qtian13/workout-tracker.git
 * When the user load the page, they are given the option to create a new workout or continue with their last workout if there is any.
 * User are able to add new exercises to a new workout plan
 
-  <img src="assets/images/add.gif" alt="add-workout" width="500">
+  <img src="assets/images/add.gif" alt="add-workout-demo" width="500">
 * User are able to Add exercises to the most recent workout plan.
 
-  <img src="assets/images/continue.gif" alt="add-workout" width="500">
+  <img src="assets/images/continue.gif" alt="continue-workout-demo" width="500">
 * User are able to view the combined weight of multiple exercises from the past seven workouts on the dashboard.
 * User are able to view the total duration of each workout from the past seven workouts on the dashboard.
 
-  <img src="assets/images/latest7.gif" alt="add-workout" width="500">
+  <img src="assets/images/latest7.gif" alt="last7-workout-demo" width="500">
 
 ## Deployed Page
 The application is deployed on Heroku
