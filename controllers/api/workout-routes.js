@@ -38,9 +38,8 @@ router.get('/', async (req, res) => {
 
 router.get('/range', async (req, res) => {
   try {
-    // return all workout documents ordered by date created
+    // return last 7 workouts ordered by created sequence
     // add temperary field totalDuration
-    // const workouts = Workout.find().sort( { date: 1 } ).limit( 5 )
     const workouts = await Workout.aggregate([{
       $addFields:{
         totalDuration: {
@@ -49,9 +48,38 @@ router.get('/range', async (req, res) => {
       }
     }]).sort({ _id: -1 }).limit(7);
     workouts.reverse();
-    for (let i = 0; i < 7; i++) {
-      console.log(workouts[i]);
+    
+    // check the number of workouts
+    const numOfDocs = workouts.length;
+
+    // check if there is any workout created today
+    let workoutOnToday = 0;
+    if (numOfDocs > 0 && numOfDocs < 7) {
+      const lastWorkoutDay = workouts[workouts.length - 1].day;
+      let currentDayStart = new Date();
+
+      currentDayStart.setHours(0);
+      currentDayStart.setMinutes(0);
+      currentDayStart.setSeconds(0);
+      currentDayStart = Math.floor(currentDayStart.getTime() / 1000) * 1000;
+
+      if (lastWorkoutDay.getTime() > currentDayStart) {
+        workoutOnToday = 1;
+      }
     }
+
+    // add workout place holder and make the chart looks better
+    // if there is already workout today, the place holder starts from the next day
+    // else, the place holder starts from today
+    for (let i = 0; i < 7 - numOfDocs; i++) {
+      workouts.push({
+        day: new Date().setDate(new Date().getDate() + i + workoutOnToday),
+        exercises: []
+      });
+    }
+    
+    console.log("=======workouts======");
+    console.log(workouts);
     res.status(200).json(workouts);
   } catch (err) {
     res.status(500).json(err);
