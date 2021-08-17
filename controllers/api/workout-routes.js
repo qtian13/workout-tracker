@@ -48,14 +48,10 @@ router.get('/range', async (req, res) => {
         }
       }
     }]).sort({ _id: -1 }).limit(7);
-    console.log("====api get all workout in range before reverse=====");
-    console.log(workouts);
-    console.log("====================================================");
     workouts.reverse();
-    // }]).skip(Workout.count() - 7);
-    console.log("====api get all workout in range after reverse=====");
-    console.log(workouts);
-    console.log("===================================================");
+    for (let i = 0; i < 7; i++) {
+      console.log(workouts[i]);
+    }
     res.status(200).json(workouts);
   } catch (err) {
     res.status(500).json(err);
